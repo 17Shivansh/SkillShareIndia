@@ -1,9 +1,22 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import mail from '../assets/image 1.png';
+import phone from '../assets/image 2.png';
+import location from '../assets/image 12.png';
+import logo from '../assets/Skill-share-india-logo.png';
 
+
+
+// Export as an object
+export const images = {
+  mail,
+  phone,
+  location,
+  logo,
+};
 const Footer = () => {
   return (
-    <footer className="bg-[#E0F7FA] py-8">
+    <footer className="bg-gradient-to-r from-[#D0E8F2] to-[#FFFFFF] py-8">
       <div className="container mx-auto flex flex-col md:flex-row items-center md:items-start justify-center md:justify-between px-4">
         
         {/* Left Side - Logo */}
@@ -14,7 +27,7 @@ const Footer = () => {
           transition={{ duration: 0.8, ease: 'easeInOut' }}
         >
           <img 
-            src="src/assets/images/Skill-share-india-logo.png" 
+            src={images.logo} 
             alt="SkillShare India Logo" 
             className="w-[180px] h-auto object-contain md:w-[265px] md:h-[100px]" 
           />
@@ -33,8 +46,8 @@ const Footer = () => {
             whileHover={{ scale: 1.1 }}
             transition={{ duration: 0.3 }}
           >
-            <img src="./src/assets/images/image 1.png" alt="Mail Logo" className="w-6 h-6 mr-2" />
-            <span className="text-sm sm:text-base">contact@skillshareindia.com</span>
+            <img src={images.mail} alt="Mail Logo" className="w-6 h-6 mr-2" />
+            <span className="text-[#002F6C] text-sm sm:text-base">contact@skillshareindia.com</span>
           </motion.div>
 
           {/* Phone */}
@@ -43,8 +56,8 @@ const Footer = () => {
             whileHover={{ scale: 1.1 }}
             transition={{ duration: 0.3 }}
           >
-            <img src="./src/assets/images/image 2.png" alt="Phone Logo" className="w-6 h-6 mr-2" />
-            <span className="text-sm sm:text-base">+91 12345 67890</span>
+            <img src={images.phone} alt="Phone Logo" className="w-6 h-6 mr-2" />
+            <span className="text-[#002F6C] text-sm sm:text-base">+91 12345 67890</span>
           </motion.div>
 
           {/* Address */}
@@ -53,8 +66,8 @@ const Footer = () => {
             whileHover={{ scale: 1.1 }}
             transition={{ duration: 0.3 }}
           >
-            <img src="./src/assets/images/image 12.png" alt="Address Logo" className="w-6 h-6 mr-2" />
-            <span className="break-words max-w-xs text-sm sm:text-base text-center md:text-left">
+            <img src={images.location} alt="Address Logo" className="w-6 h-6 mr-2" />
+            <span className="break-words max-w-xs text-[#002F6C] text-sm sm:text-base text-center md:text-left">
               123, SkillShare Street, New Delhi, India
             </span>
           </motion.div>
