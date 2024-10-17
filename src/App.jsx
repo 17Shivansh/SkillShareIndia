@@ -7,8 +7,8 @@ import ContactInfo from './components/ContactInfo.jsx';
 import Footer from './components/Footer.jsx';
 import ContactUs from './pages/ContactUs.jsx';
 import Reviews from './pages/Reviews.jsx';
-import Events from './pages/Events.jsx';
-import AboutUs from './pages/AboutUS.jsx';
+import Events from  './pages/Events.jsx';
+import AboutUs from './pages/About-us.jsx';
 
 function App() {
   return (
