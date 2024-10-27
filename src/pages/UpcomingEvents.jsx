@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom'; // Import NavLink for navigation
+import { NavLink } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import imageUni1 from '../assets/image-uni-1.png';
 import imageUni2 from '../assets/image-uni.png';
 import imageUni3 from '../assets/image-uni-1.png';
@@ -35,55 +36,70 @@ const UpcomingEvents = () => {
     },
   ];
 
-  const eventsToShow = 2; // Number of events to show at a time
-
-  const nextEvents = () => {
-    setCurrentEventIndex((prevIndex) => {
-      return (prevIndex + eventsToShow) % events.length; // Cycle through events
-    });
-  };
-
   useEffect(() => {
-    const interval = setInterval(nextEvents, 5000); // Slide every 5 seconds
+    const interval = setInterval(() => {
+      setCurrentEventIndex((prevIndex) => (prevIndex + 1) % events.length);
+    }, 8000); // Change every 8 seconds
+
     return () => clearInterval(interval);
-  }, []);
+  }, [events.length]);
 
   return (
-    <div className="w-full md:w-1/2 pr-0 md:pr-4 flex flex-col mb-6 md:mb-0 ml-2">
-      <h2 className="text-xl md:text-2xl font-bold mb-4">Upcoming Events</h2>
-      <div className="relative overflow-hidden h-80">
-        <div
-          className="grid grid-cols-1 gap-4 transition-transform duration-500 ease-in-out"
-          style={{
-            transform: `translateY(-${(currentEventIndex * 100) / eventsToShow}%)`, // Slide the appropriate percentage
-          }}
-        >
-          {/* Map over the events and show only two events at a time */}
-          {events
-            .slice(currentEventIndex, currentEventIndex + eventsToShow)
-            .map((event) => (
-              <div key={event.id} className="flex p-4 bg-transparent">
-                <img
-                  src={event.image}
-                  alt={event.title}
-                  className="w-20 h-20 md:w-1/4 md:h-auto rounded-md mr-4"
-                />
-                <div className="flex flex-col justify-between w-3/4">
-                  <h3 className="text-lg md:text-xl font-bold mb-1">{event.title}</h3>
-                  <p className="text-red-500 mb-1 text-sm">{event.date}</p>
-                  <div className="flex justify-center">
-                    {/* NavLink to redirect to Events section */}
-                    <NavLink
-                      to="/events" // Change this to the route of your Events section
-                      className="bg-white hover:bg-green-700 text-black font-bold py-1 px-2 rounded-full text-xs transition duration-300 ease-in-out"
-                    >
-                      View Details
-                    </NavLink>
-                  </div>
-                </div>
-              </div>
-            ))}
-        </div>
+    <div className="w-full flex flex-col items-center mb-6 bg-gradient-to-r from-purple-200 to-blue-200 p-4 rounded-lg shadow-lg">
+      <h2 className="text-3xl font-bold mb-4 text-gray-800">Upcoming Events</h2>
+      
+      <div className="relative w-full md:w-3/4 overflow-hidden" style={{ height: '240px' }}>
+        <AnimatePresence>
+          <motion.div
+            key={events[currentEventIndex].id}
+            className="absolute w-full flex items-center p-4 bg-white rounded-lg shadow-md"
+            initial={{ x: '100%', opacity: 0 }} // Start off from the right
+            animate={{ x: 0, opacity: 1 }}   // Move to the center
+            exit={{ x: '-100%', opacity: 0 }} // Exit to the left
+            transition={{ 
+              duration: 0.8, // Smooth transition
+              ease: "easeInOut" // Easing function for smooth effect
+            }}
+          >
+            {/* Image on the Left */}
+            <div className="w-1/3 flex justify-center items-center p-3">
+              <img
+                src={events[currentEventIndex].image}
+                alt={events[currentEventIndex].title}
+                className="w-full h-auto object-cover rounded-md border border-gray-300 shadow-sm"
+              />
+            </div>
+            
+            {/* Content on the Right */}
+            <div className="flex flex-col justify-center w-2/3 p-3 ml-4"> {/* Added ml-4 for left margin */}
+              <h3 className="text-xl font-semibold mb-1 text-gray-800 truncate">
+                {events[currentEventIndex].title}
+              </h3>
+              {/* Date in Red */}
+              <p className="text-red-600 mb-1 text-base truncate">
+                {events[currentEventIndex].date}
+              </p>
+              <NavLink
+                to="/events"
+                className="text-white bg-blue-600 hover:bg-blue-500 font-semibold py-2 px-4 border border-blue-600 rounded-full transition duration-300"
+                style={{ width: 'max-content' }}
+              >
+                View Details
+              </NavLink>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Dots for manual event selection */}
+      <div className="flex justify-center space-x-2 mt-4">
+        {events.map((_, index) => (
+          <div
+            key={index}
+            onClick={() => setCurrentEventIndex(index)}
+            className={`w-3 h-3 rounded-full cursor-pointer transition duration-300 ${index === currentEventIndex ? 'bg-blue-600' : 'bg-gray-400'}`}
+          ></div>
+        ))}
       </div>
     </div>
   );

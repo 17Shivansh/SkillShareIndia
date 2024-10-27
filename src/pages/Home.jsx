@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
+import Slider from 'react-slick';
 
 // Import images for the banner
 import Banner1 from '../assets/Banner-1.jpg';
@@ -9,8 +11,8 @@ import Banner4 from '../assets/Banner-4.jpg';
 import Banner5 from '../assets/Banner-5.jpg';
 
 // Import images for upcoming events
-// import imageUni1 from '../assets/image-uni-1.png';
-// import imageUni2 from '../assets/image-uni.png';
+import imageUni1 from '../assets/image-uni-1.png';
+import imageUni2 from '../assets/image-uni.png';
 
 // Import images for services
 import destination1 from '../assets/destination1.png';
@@ -19,7 +21,6 @@ import destination3 from '../assets/destination3.png';
 import destination4 from '../assets/destination4.png';
 import destination5 from '../assets/destination5.png';
 import destination6 from '../assets/destination6.png';
-
 
 import img3 from '../assets/image 3.png';
 import img4 from '../assets/image 4.png';
@@ -44,6 +45,7 @@ const awards = [
   { imgSrc: img10, alt: 'Award 10' },
   { imgSrc: img11, alt: 'Award 11' },
 ];
+
 
 const settings = {
   dots: true, 
@@ -150,44 +152,54 @@ const services = [
     title: "SQUAA/Auditing of Schools",
     imgSrc: destination1,
     alt: "School Audit",
+    link: "/services#squaa" // Add a link for the specific service
   },
   {
-    title: "SQUAA/School Improvement",
+    title: "Capacity Building Programs",
     imgSrc: destination2,
     alt: "School Improvement",
+    link: "/services#capacity-building" // Add a link for the specific service
   },
   {
-    title: "SQUAA/Quality Assurance",
+    title: "Recruitment/Job Hiring",
     imgSrc: destination3,
     alt: "Quality Assurance",
+    link: "/services#recruitment" // Add a link for the specific service
   },
   {
-    title: "SQUAA/Service 4",
+    title: "International Olympiads",
     imgSrc: destination4,
     alt: "Service 4",
+    link: "/services#international-olympiads" // Add a link for the specific service
   },
   {
-    title: "SQUAA/Service 5",
+    title: "Study Abroad",
     imgSrc: destination5,
     alt: "Service 5",
+    link: "/services#study-abroad" // Add a link for the specific service
   },
   {
-    title: "SQUAA/Service 6",
+    title: "Others",
     imgSrc: destination6,
     alt: "Service 6",
+    link: "/services#others" // Add a link for the specific service
   },
 ];
+
 
 const Home = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  // Banner image slide logic
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    }, 5000); // Change image every 5 seconds
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length); // Cycle through banner images
+    }, 5000); // Change slide every 5 seconds
 
     return () => clearInterval(intervalId); // Cleanup interval on unmount
   }, []);
+
+  
 
   return (
     <div>
@@ -204,177 +216,103 @@ const Home = () => {
         />
       </div>
 
-      {/* Upcoming Events and Contact Form Section */}
-      <div className="bg-[#EBEEFB] p-4 flex flex-col md:flex-row items-stretch">
-        {/* Upcoming Events Section */}
-       <UpcomingEvents />
+      {/* Upcoming Events Section */}
+      <UpcomingEvents />
 
-        {/* Contact Form Section */}
-        <div className="w-full md:w-1/2 pl-0 md:pl-4 flex flex-col">
-          <h2 className="text-xl md:text-2xl font-bold mb-4 text-green-600">Contact Us</h2>
-          <div className="bg-transparent rounded-lg shadow-md p-4 flex-1">
-            <form>
-              <div className="mb-2">
-                <label className="block text-gray-700 text-xs md:text-sm font-bold mb-1" htmlFor="name">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  placeholder="Your Name"
-                  className="bg-transparent border border-gray-300 rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  required
-                />
-              </div>
-              <div className="mb-2">
-                <label className="block text-gray-700 text-xs md:text-sm font-bold mb-1" htmlFor="email">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="Your Email"
-                  className="bg-transparent border border-gray-300 rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  required
-                />
-              </div>
-              <div className="mb-2">
-                <label className="block text-gray-700 text-xs md:text-sm font-bold mb-1" htmlFor="phone">
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  id="phone"
-                  placeholder="Your Phone Number"
-                  className="bg-transparent border border-gray-300 rounded w-full py-1 px-2 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                  required
-                />
-              </div>
-              <div className="flex justify-center">
-                <button
-                  type="submit"
-                  className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-1 rounded text-xs transition duration-300 ease-in-out"
-                >
-                  Send Us!
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-
-{/* Our Services section */}
-<div className="py-10 mx-auto max-w-6xl px-6"> {/* Adjusted to max-w-6xl for more width and centered with padding on x-axis */}
-  {/* Heading Section */}
+      {/* Our Services section */}
+<div className="py-10 mx-auto max-w-6xl px-6">
   <h2 className="text-center text-3xl font-extrabold mb-8">
-    <span className="text-black">Our </span>
-    <span className="text-red-500">Services</span>
+    <span className="text-blue-800">Our </span> {/* Changed to a deep blue color */}
+    <span className="text-green-500">Services</span> {/* Changed to a vibrant green color */}
   </h2>
-
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"> {/* Consistent gap between all cards */}
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
     {services.map((service, index) => (
       <motion.div
         key={index}
-        className="bg-white rounded-lg p-6 shadow-lg transition-transform transform hover:scale-105 flex flex-col items-center h-auto" 
-        whileHover={{ scale: 1.05 }}
+        className="bg-white rounded-lg p-6 shadow-lg transition-transform transform hover:scale-105 hover:shadow-2xl hover:bg-blue-50 flex flex-col items-center h-auto" // Changed hover background color
+        whileHover={{ scale: 1.05, rotate: 2 }} // Slight rotation effect on hover
         whileTap={{ scale: 0.95 }}
+        transition={{ duration: 0.3 }} // Smooth transition for hover effects
       >
         <div className="w-24 h-24 mb-4 flex items-center justify-center">
-          <img src={service.imgSrc} alt={service.alt} className="object-contain rounded-full w-full h-full" /> {/* Fixed size for images */}
+          <img src={service.imgSrc} alt={service.alt} className="object-contain rounded-full w-full h-full" />
         </div>
-        <h3 className="text-lg font-semibold mb-2 text-black text-center">{service.title}</h3>
-        <a href="#" className="text-red-500 font-semibold text-sm mt-4"> {/* Simple Read More in red */}
+        <h3 className="text-lg font-semibold mb-2 text-blue-800 text-center">{service.title}</h3> {/* Changed title color */}
+        <Link to={service.link} className="text-green-500 font-semibold text-sm mt-4 hover:underline"> {/* Changed link color */}
           Read More →
-        </a>
+        </Link>
       </motion.div>
     ))}
   </div>
 </div>
 
 
-
-<div className="flex flex-wrap gap-8 justify-evenly py-8"> {/* Even spacing with justify-around */}
-  {/* Schools Card */}
-  <div className="bg-gradient-to-r from-gray-800 to-black text-white rounded-lg p-6 shadow-lg transform hover:scale-105 transition duration-300 w-64 sm:w-64 flex flex-col items-center">
-    <h2 className="text-xl font-extrabold mb-2 text-white">Schools</h2>
-    <p className="text-blue-400 font-bold text-3xl">2000+</p>
-  </div>
-
-  {/* Teachers Empower Card */}
-  <div className="bg-gradient-to-r from-gray-800 to-black text-white rounded-lg p-6 shadow-lg transform hover:scale-105 transition duration-300 w-64 sm:w-64 flex flex-col items-center">
-    <h2 className="text-xl font-extrabold mb-2 text-white">Teachers Empower</h2>
-    <p className="text-blue-400 font-bold text-3xl">20,000+</p>
-  </div>
-
-  {/* Reviews Card */}
-  <div className="bg-gradient-to-r from-gray-800 to-black text-white rounded-lg p-6 shadow-lg transform hover:scale-105 transition duration-300 w-64 sm:w-64 flex flex-col items-center">
-    <h2 className="text-xl font-extrabold mb-2 text-white">Reviews</h2>
-    <div className="flex items-center mt-3 gap-1">
-      {[...Array(5)].map((_, i) => (
-        <span key={i} className="text-yellow-400 text-2xl">★</span>
-      ))}
-    </div>
-  </div>
-</div>
+        {/* Awards Section */}
+        <div className="py-10 mx-auto max-w-6xl px-6">
+        <h2 className="text-center text-3xl font-extrabold mb-8">
+          <span className="text-black">Our </span>
+          <span className="text-red-500">Awards</span>
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {awards.map((award, index) => (
+            <motion.div
+              key={index}
+              className="flex justify-center"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <img src={award.imgSrc} alt={award.alt} className="h-24 w-24 object-contain" />
+            </motion.div>
+          ))}
+        </div>
+      </div>
 
 
 
 
-<div className="relative bg-gray-50 py-12"> {/* Light background added */}
-  {/* Heading Section */}
-  <div className="text-center mb-12">
-    <h1 className="text-4xl font-bold mb-4 text-black">About SkillShare India</h1> {/* Heading in black */}
-    <p className="text-gray-700 max-w-3xl mx-auto">
-      Skillshare India is the leading educational consultancy for schools across India, offering professional assistance to educational stakeholders with the aim of transforming the educational structure of the country.
-    </p>
-    <a href="/about-us" className="inline-block mt-4 text-red-500 font-semibold transition-colors duration-300 hover:text-red-600">
-      Read More →
-    </a>
-  </div>
-</div>
-
-
-
-
-<div className="bg-white py-10"> {/* Adjusted padding for better height */}
-  {/* Heading */}
-  <h2 className="text-center text-4xl font-extrabold mb-8">
-    <span className="text-black">Awards </span>
-    <span className="text-green-500">Winnings</span>
+   
+      <div className="max-w-screen-lg mx-auto my-10 px-4">
+  <h2 className="text-4xl font-bold text-center mb-6 text-gray-800">
+    What Our Clients Say
   </h2>
-
-  {/* Award Images Grid */}
-  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 max-w-7xl mx-auto px-4"> {/* 5 images in one row */}
-    {awards.slice(0, 5).map((award, index) => ( // First five images
-      <div key={index} className="flex flex-col items-center">
-        <img
-          src={award.imgSrc}
-          alt={award.alt}
-          className="w-32 h-32 object-cover shadow-lg hover:shadow-xl transition-shadow duration-300" // Square format
-        />
-      </div>
+  <Slider {...settings}>
+    {reviews.map((review, index) => (
+      <motion.div
+        key={index}
+        className="p-4"
+        initial={{ opacity: 0, scale: 0.9, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+      >
+        <div className="bg-white shadow-lg rounded-lg p-6 flex flex-col justify-between text-center h-[400px] mx-auto transition-transform transform hover:scale-105">
+          <motion.img
+            src={review.photo}
+            alt={review.name}
+            className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-gray-200"
+            initial={{ scale: 0.9 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+          <motion.p
+            className="text-lg text-gray-700 mb-4 italic"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+          >
+            "{review.review}"
+          </motion.p>
+          <h3 className="text-xl font-semibold text-gray-900 mb-2">
+            {review.name}
+          </h3>
+          <div className="text-yellow-500 text-xl">
+            {"★".repeat(review.rating)}
+            {"☆".repeat(5 - review.rating)}
+          </div>
+        </div>
+      </motion.div>
     ))}
-  </div>
-
-  {/* Centered Remaining Images */}
-  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto mt-8"> {/* Centering the next four images */}
-    {awards.slice(5).map((award, index) => ( // Remaining images
-      <div key={index} className="flex flex-col items-center">
-        <img
-          src={award.imgSrc}
-          alt={award.alt}
-          className="w-32 h-32 object-cover shadow-lg hover:shadow-xl transition-shadow duration-300" // Square format
-        />
-      </div>
-    ))}
-  </div>
+  </Slider>
 </div>
-
-
-
-
-
 
 
 

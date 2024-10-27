@@ -9,6 +9,7 @@ import ContactUs from './pages/ContactUs.jsx';
 import Reviews from './pages/Reviews.jsx';
 import Events from  './pages/Events.jsx';
 import AboutUs from './pages/About-us.jsx';
+import Services from './pages/Services.jsx';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/gallery" element={<Gallery />} />
+      <Route path="/services" element={<Services />} />
       <Route path="/contact-us" element={<ContactUs/>} />
       <Route path="/reviews" element={<Reviews/>} />
       <Route path="/events" element={<Events />} />

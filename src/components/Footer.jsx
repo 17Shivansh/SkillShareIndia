@@ -57,7 +57,7 @@ const Footer = () => {
             transition={{ duration: 0.3 }}
           >
             <img src={images.phone} alt="Phone Logo" className="w-6 h-6 mr-2" />
-            <span className="text-[#002F6C] text-sm sm:text-base">+91 12345 67890</span>
+            <span className="text-[#002F6C] text-sm sm:text-base">+91 87006 30842</span>
           </motion.div>
 
           {/* Address */}
@@ -68,7 +68,7 @@ const Footer = () => {
           >
             <img src={images.location} alt="Address Logo" className="w-6 h-6 mr-2" />
             <span className="break-words max-w-xs text-[#002F6C] text-sm sm:text-base text-center md:text-left">
-              123, SkillShare Street, New Delhi, India
+            Skillshare India, 723 Tower C, Seventh Floor, Logix Cyberpark, sector 62, Noida, 201-301
             </span>
           </motion.div>
         </motion.div>
