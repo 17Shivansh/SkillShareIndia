@@ -1,21 +1,32 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Slider from 'react-slick';
 import { useSwipeable } from 'react-swipeable';
-import Gallery1 from '../assets/Gallery-1.jpg';
-import Gallery2 from '../assets/Gallery-2.jpg';
-import Gallery3 from '../assets/Gallery-3.jpg';
-import Gallery4 from '../assets/Gallery-4.jpg';
-import Gallery5 from '../assets/Gallery-5.jpg';
+import { useFirebase } from '../Context/firebase.jsx';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-const images = [Gallery1, Gallery2, Gallery3, Gallery4, Gallery5];
-
 const Gallery = () => {
-  const [selectedIndex, setSelectedIndex] = useState(null); // Track clicked image index
+  const { displayPhotos } = useFirebase();
+  const [photosByCategory, setPhotosByCategory] = useState({});
+  const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  // Slick slider settings for responsiveness
+  useEffect(() => {
+    const fetchPhotos = async () => {
+      const photos = await displayPhotos();
+      const categorizedPhotos = photos.reduce((acc, photo) => {
+        const { category } = photo;
+        if (!acc[category]) acc[category] = [];
+        acc[category].push(photo);
+        return acc;
+      }, {});
+      setPhotosByCategory(categorizedPhotos);
+    };
+
+    fetchPhotos();
+  }, []);
+
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -23,28 +34,21 @@ const Gallery = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
-    initialSlide: selectedIndex,
-    afterChange: (index) => setSelectedIndex(index),
-    responsive: [
-      {
-        breakpoint: 768, // Mobile
-        settings: {
-          arrows: false,
-        },
-      },
-    ],
+    initialSlide: selectedImageIndex,
+    afterChange: (index) => setSelectedImageIndex(index),
   };
 
-  // Swipeable functionality for mobile gestures
   const handlers = useSwipeable({
-    onSwipedLeft: () => setSelectedIndex((prev) => (prev + 1) % images.length),
+    onSwipedLeft: () =>
+      setSelectedImageIndex((prev) => (prev + 1) % photosByCategory[selectedCategory].length),
     onSwipedRight: () =>
-      setSelectedIndex((prev) => (prev - 1 + images.length) % images.length),
+      setSelectedImageIndex((prev) =>
+        (prev - 1 + photosByCategory[selectedCategory].length) % photosByCategory[selectedCategory].length
+      ),
     preventDefaultTouchmoveEvent: true,
     trackMouse: true,
   });
 
-  // Animation variants
   const container = {
     hidden: { opacity: 0 },
     visible: {
@@ -72,53 +76,62 @@ const Gallery = () => {
         Our Gallery
       </motion.h1>
 
-      {/* Main gallery grid */}
-      <motion.div
-        className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
-        variants={container}
-        initial="hidden"
-        animate="visible"
-      >
-        {images.map((src, index) => (
+      {Object.keys(photosByCategory).map((category) => (
+        <section key={category} className="mb-10">
+          <h2 className="text-2xl font-semibold mb-4 text-gray-700">{category}</h2>
           <motion.div
-            key={index}
-            className="relative overflow-hidden rounded-lg shadow-lg cursor-pointer"
-            variants={item}
-            whileHover="hover"
-            onClick={() => setSelectedIndex(index)} // Open slideshow on image click
+            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6"
+            variants={container}
+            initial="hidden"
+            animate="visible"
           >
-            <motion.img
-              src={src}
-              alt={`Gallery image ${index + 1}`}
-              className="object-cover w-full h-64"
-            />
-            <motion.div
-              className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300"
-            >
-              <span className="text-white font-semibold text-lg">
-                View Image {index + 1}
-              </span>
-            </motion.div>
+            {photosByCategory[category].map((photo, index) => (
+              <motion.div
+                key={photo.id}
+                className="relative overflow-hidden rounded-lg shadow-lg cursor-pointer"
+                variants={item}
+                whileHover="hover"
+                onClick={() => {
+                  setSelectedImageIndex(index);
+                  setSelectedCategory(category);
+                }}
+              >
+                <motion.img
+                  src={photo.imageUrl}
+                  alt={`Gallery image ${index + 1}`}
+                  className="object-cover w-full h-64"
+                />
+                <motion.div
+                  className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300"
+                >
+                  <span className="text-white font-semibold text-lg">
+                    View Image {index + 1}
+                  </span>
+                </motion.div>
+              </motion.div>
+            ))}
           </motion.div>
-        ))}
-      </motion.div>
+        </section>
+      ))}
 
-      {/* Slideshow modal */}
-      {selectedIndex !== null && (
+      {selectedImageIndex !== null && selectedCategory !== null && (
         <div
           className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
-          onClick={() => setSelectedIndex(null)} // Close modal on background click
+          onClick={() => {
+            setSelectedImageIndex(null);
+            setSelectedCategory(null);
+          }}
         >
           <div
             className="relative w-full max-w-4xl mx-auto"
-            {...handlers} // Add swipeable handlers
-            onClick={(e) => e.stopPropagation()} // Prevent modal close on image click
+            {...handlers}
+            onClick={(e) => e.stopPropagation()}
           >
             <Slider {...sliderSettings}>
-              {images.map((src, index) => (
-                <div key={index}>
+              {photosByCategory[selectedCategory].map((photo, index) => (
+                <div key={photo.id}>
                   <img
-                    src={src}
+                    src={photo.imageUrl}
                     alt={`Gallery image ${index + 1}`}
                     className="object-cover w-full h-screen md:h-auto"
                   />
@@ -126,12 +139,26 @@ const Gallery = () => {
               ))}
             </Slider>
 
-            {/* Close Button */}
+            {/* Close Button (Existing "×" button) */}
             <button
               className="absolute top-4 right-4 text-white text-2xl bg-gray-800 rounded-full p-2"
-              onClick={() => setSelectedIndex(null)}
+              onClick={() => {
+                setSelectedImageIndex(null);
+                setSelectedCategory(null);
+              }}
             >
               &times;
+            </button>
+
+            {/* Close Button (New "Close" button at the bottom) */}
+            <button
+              className="absolute bottom-4 left-1/2 transform -translate-x-1/2 text-white bg-gray-700 px-4 py-2 rounded-md"
+              onClick={() => {
+                setSelectedImageIndex(null);
+                setSelectedCategory(null);
+              }}
+            >
+              Close
             </button>
           </div>
         </div>
