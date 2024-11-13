@@ -1,4 +1,3 @@
-import React from 'react';
 import { Routes, Route } from 'react-router-dom'; // Changed Routes to Router
 import Home from "./pages/Home.jsx"
 import Navbar from './components/Navbar.jsx'; 
