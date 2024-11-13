@@ -3,12 +3,6 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 import Slider from 'react-slick';
 
-// Import images for the banner
-import Banner1 from '../assets/Banner-1.jpg';
-import Banner2 from '../assets/Banner-2.jpg';
-import Banner3 from '../assets/Banner-3.jpg';
-import Banner4 from '../assets/Banner-4.jpg';
-import Banner5 from '../assets/Banner-5.jpg';
 
 // Import images for upcoming events
 import imageUni1 from '../assets/image-uni-1.png';
@@ -32,6 +26,7 @@ import img9 from '../assets/image 9.png';
 import img10 from '../assets/image 10.png';
 import img11 from '../assets/image 11.png';
 import UpcomingEvents from './UpcomingEvents';
+import Banner from './Banner';
 
 // Manually created array of images with alt text
 const awards = [
@@ -146,7 +141,7 @@ const reviews = [
   },
 ];
 
-const images = [Banner1, Banner2, Banner3, Banner4, Banner5];
+
 const services = [
   {
     title: "SQUAA/Auditing of Schools",
@@ -188,39 +183,21 @@ const services = [
 
 
 const Home = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Banner image slide logic
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length); // Cycle through banner images
-    }, 5000); // Change slide every 5 seconds
 
-    return () => clearInterval(intervalId); // Cleanup interval on unmount
-  }, []);
-
+  
   
 
   return (
     <div>
       {/* Banner Section */}
-      <div className="relative h-[440px] overflow-hidden">
-        <motion.div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${images[currentIndex]})` }}
-          key={currentIndex} // Ensure unique key for Framer Motion
-          initial={{ opacity: 0 }} // Start hidden
-          animate={{ opacity: 1 }} // Animate to visible
-          exit={{ opacity: 0 }} // Fade out on exit
-          transition={{ duration: 1 }} // Duration of the transition
-        />
-      </div>
-
+      <Banner />
+     
       {/* Upcoming Events Section */}
       <UpcomingEvents />
 
       {/* Our Services section */}
-<div className="py-10 mx-auto max-w-6xl px-6">
+<div className="py-10 mx-auto max-w-6xl px-6" id='get-started'>
   <h2 className="text-center text-3xl font-extrabold mb-8">
     <span className="text-blue-800">Our </span> {/* Changed to a deep blue color */}
     <span className="text-green-500">Services</span> {/* Changed to a vibrant green color */}

@@ -47,7 +47,7 @@ const Footer = () => {
             transition={{ duration: 0.3 }}
           >
             <img src={images.mail} alt="Mail Logo" className="w-6 h-6 mr-2" />
-            <span className="text-[#002F6C] text-sm sm:text-base">contact@skillshareindia.com</span>
+            <span className="text-[#002F6C] text-sm sm:text-base">Skillshareindia00@gmail.com</span>
           </motion.div>
 
           {/* Phone */}

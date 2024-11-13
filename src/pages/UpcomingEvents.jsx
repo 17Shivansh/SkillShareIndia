@@ -48,7 +48,7 @@ const UpcomingEvents = () => {
     <div className="w-full flex flex-col items-center mb-6 bg-gradient-to-r from-purple-200 to-blue-200 p-4 rounded-lg shadow-lg">
       <h2 className="text-3xl font-bold mb-4 text-gray-800">Upcoming Events</h2>
       
-      <div className="relative w-full md:w-3/4 overflow-hidden" style={{ height: '240px' }}>
+      <div className="relative w-full md:w-3/4 overflow-hidden justify-center items-center flex rounded-md" style={{ height: '240px' }}>
         <AnimatePresence>
           <motion.div
             key={events[currentEventIndex].id}
