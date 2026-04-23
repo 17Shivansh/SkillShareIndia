@@ -4,7 +4,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore, getDocs, collection} from "firebase/firestore";
 import { getStorage, ref, getDownloadURL} from "firebase/storage";
 
-const FirebaseContext = createContext(null);
+const FirebaseContext = createContext(null); //
 
 const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
